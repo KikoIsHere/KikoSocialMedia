@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Signup</title>
+    </head>
+    <body>
+        <h2>Register an account</h2>
+        <form method="post">
+
+            {{ form.csrf_token }}
+
+            {{ form.username.label() }}
+            {{ form.username(placeholder="Username") }}
+
+            {{ form.email.label() }}
+            {{ form.email(placeholder="Email") }}
+
+            {{ form.password.label() }}
+            {{ form.password(placeholder="Password") }}
+
+            {{ form.password2.label() }}
+            {{ form.password2(placeholder="Confirm Password") }}
+
+            {{form.submit()}}
+            
+        </form>
+        <a href="/login">Login</a>
+    </body>
+</html>

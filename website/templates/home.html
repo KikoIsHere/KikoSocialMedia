@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <title>Home Page</title>
+    </head>
+    <body>
+        <h1>Home Page</h1>
+        <a href="/logout">Logout</a>
+        <a href="/profile">My profile</a>
+        <a href="/userPosts">My Posts</a>
+        <a href="/post/add">Create Post</a>
+        <div>
+            <h2>All Posts</h2>
+            <ul>
+                {% for post in all_posts %}
+                <li>
+                    <a href="{{url_for('views.post', id=post.id )}}"><h3>{{post.title}}</h3></a>
+                    <p>{{post.data}}</p>
+                    <span>{{post.author}}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <table>
+                {% for user in users %}
+                <tr valign="top">
+                    <td>                       
+                        {% if user.id != current_user.id %}
+                            <h1>User: {{ user.username }}</h1>
+                            {% if not current_user.is_friend(user)%}
+                                <a href="{{ url_for('views.sendFriendRequest', user_id=user.id, request=True ) }}">Add Friend</a>
+                            {% else %}
+                                <a href="{{ url_for('views.removefriend', user_id=user.id) }}">Remove Friend</a>
+                            {% endif %}                            
+                        {% endif %}
+                        </p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <table>
+                {% for friend_request in friend_requests %}
+                    {% for user in users %}
+                    <tr valign="top">
+                        <td>                       
+                            {% if friend_request.receiver == current_user.id %}
+                                {% if friend_request.sender == user.id %}
+                                    <h1>Friend request: {{ user.username }}</h1>
+                                    <a href="{{ url_for('views.addfriend', user_id=friend_request.sender) }}">Accept</a>
+                                    <a href="{{ url_for('views.sendFriendRequest', user_id=friend_request.sender, request=False ) }}">Decline</a>       
+                                {% endif %}           
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
+        <script>
+            $(document).ready(function() {
+
+                var socket = io.connect('http://127.0.0.1:5000');
+
+                socket.on('connect', function() {
+                    socket.send('{{current_user.username}} has connected!');
+                });
+
+                socket.on('private message', function(msg) {
+                    $("#messages").append('<li>'+msg+'</li>');
+                    console.log('Received message');
+                });
+
+                $('#sendbutton').on('click', function() {
+                    socket.send($('#myMessage').val());
+                    $('#myMessage').val('');
+                });
+
+            });
+        </script>
+
+            <ul id="messages"></ul>
+            <input type="text" id="myMessage">
+            <button id="sendbutton">Send</button>
+    </body>
+</html>

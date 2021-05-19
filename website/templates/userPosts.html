@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Create Post</title>
+    </head>
+    <body>
+        <div>
+            <h2>My Posts</h2>
+            <ul>
+                {% for post in user.posts %}
+                <li>
+                    <h3>{{post.title}}</h3>
+                    <p>{{post.data}}</p>
+                    <span>{{post.date}}</span>
+                    <form action="{{url_for('views.deletePost', id=post.id )}}" method='post'>
+                        <input value="Delete Post" type="submit" class="btn">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    </form>
+                    <a href="{{url_for('views.editPost', id=post.id )}}"><input value="Edit Post" type="submit" class="btn"></a>
+                </li>
+                {% endfor %}
+            </ul>
+        <div>
+    </body>
+</html>

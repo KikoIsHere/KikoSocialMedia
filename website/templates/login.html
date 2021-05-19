@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Login</title>
+    </head>
+    <body>
+        <h2>Login to your account</h2>
+        <form method="post">
+
+            {{ form.csrf_token }}
+
+            {{ form.username.label() }}
+            {{ form.username(placeholder="Username") }}
+
+            {{ form.password.label() }}
+            {{ form.password(placeholder="Password") }}
+
+            {{ form.submit() }}
+
+        </form>
+        <a href="/signup">Sign-up</a>
+        <a href="/resetPassword">Forgot Password?</a>
+    </body>
+</html>

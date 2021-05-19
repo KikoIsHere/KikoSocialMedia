@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Create Post</title>
+    </head>
+    <body>
+        <div>
+            <h3>{{post.title}}</h3>
+            <p>{{post.data}}</p>
+            <p>{{post.author}} ,{{post.date}}</p>
+        <div>
+        <div>
+            {% for comment in post.comments %}
+            <p>{{comment.data}}</p>
+                {% if comment.username == current_user.username%}
+                    <a href="{{url_for('views.deleteComment', comment_id=comment.id, post_id=post.id ) }}">Delete Comment</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <h2>Comment</h2>
+        <form method="post" action="{{url_for('views.addComment', id=post.id ) }}">
+            {{ form.csrf_token }}
+
+            {{ form.commentField.label() }}
+            {{ form.commentField(placeholder="Write comment here..") }}
+
+            {{form.submit()}}
+        </form>
+
+    </body>
+</html>

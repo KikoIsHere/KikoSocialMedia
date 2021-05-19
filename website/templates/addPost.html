@@ -1,0 +1,23 @@
+        
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Create Post</title>
+    </head>
+    <body>
+        <h2>Create Your Post</h2>
+        <form method="post" action="">
+            {{ form.csrf_token }}
+
+            {{ form.title.label() }}
+            {{ form.title(placeholder="Title") }}
+
+            {{ form.content.label() }}
+            {{ form.content(placeholder="Write content here..") }}
+
+            {{form.submit()}}
+        </form>
+    </body>
+</html>      
