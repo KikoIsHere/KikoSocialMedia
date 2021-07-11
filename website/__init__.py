@@ -23,8 +23,8 @@ def create_app():
     app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = 'christian.petrov999' #os.environ.get('EMAIL_USER') 
-    app.config['MAIL_PASSWORD'] = 'qweqweqweA1'  #os.environ.get('EMAIL_PASS')
+    app.config['MAIL_USERNAME'] =  #os.environ.get('EMAIL_USER') 
+    app.config['MAIL_PASSWORD'] =  #os.environ.get('EMAIL_PASS')
     mail.init_app(app)
     db.init_app(app)
     socketio.init_app(app)
